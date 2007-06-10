@@ -2,8 +2,8 @@
 # $Id: darcs.spec 122076 2007-02-17 04:47:41Z nanardon $
 
 %define name darcs
-%define version 1.0.8
-%define release %mkrel 4
+%define version 1.0.9
+%define release %mkrel 1
 
 %define withgit 1
 
@@ -14,13 +14,10 @@ Summary: David's Advanced Revision Control System
 Name: %{name}
 Version: %version
 Release: %release
-Source0: %{name}-%{version}.tar.bz2
-# upstream patch from unstable repos
-# Fix compil with ghc 6.6
-Patch0: darcs-ghc6.6.patch
+Source0: http://www.darcs.net/%{name}-%{version}.tar.bz2
 License: GPL
 Group: Development/Other
-Url: http://abridgegame.org/darcs/
+Url: http://www.darcs.net/
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: ghc
 BuildRequires: zlib-devel
@@ -62,7 +59,6 @@ This package contains the darcs cgi server program.
 
 %prep
 %setup -q
-%patch0 -p1 -b .hasbounds
 
 %build
 %configure \
