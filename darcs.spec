@@ -18,7 +18,6 @@ Source0: http://www.darcs.net/%{name}-%{version}.tar.bz2
 License: GPL
 Group: Development/Other
 Url: http://www.darcs.net/
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: ghc
 BuildRequires: zlib-devel
 BuildRequires: openssl-devel
