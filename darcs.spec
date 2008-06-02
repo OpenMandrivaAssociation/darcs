@@ -74,8 +74,8 @@ This package contains the darcs cgi server program.
 rm -rf $RPM_BUILD_ROOT
 make DESTDIR=%{buildroot}  installbin installserver
 # yes, it is a hack
-mkdir -p $RPM_BUILD_ROOT/%{_localstatedir}/www/
-mv -f $RPM_BUILD_ROOT/%{_libdir}/cgi-bin $RPM_BUILD_ROOT/%{_localstatedir}/www/cgi
+mkdir -p $RPM_BUILD_ROOT/%{_localstatedir}/lib/www/
+mv -f $RPM_BUILD_ROOT/%{_libdir}/cgi-bin $RPM_BUILD_ROOT/%{_localstatedir}/lib/www/cgi
 
 %check
 PATH="$PWD:$PATH" make check
@@ -92,7 +92,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files server
 %defattr(-,root,root,-)
-%{_localstatedir}/www/cgi/*
+%{_localstatedir}/lib/www/cgi/*
 %config(noreplace) %{_sysconfdir}/darcs
 %{_datadir}/darcs
 
