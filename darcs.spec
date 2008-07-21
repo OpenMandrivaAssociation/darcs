@@ -2,7 +2,7 @@
 # $Id: darcs.spec 122076 2007-02-17 04:47:41Z nanardon $
 
 %define name darcs
-%define version 2.0.0
+%define version 2.0.2
 %define release %mkrel 1
 
 %define withgit 1
