@@ -2,7 +2,7 @@
 # $Id: darcs.spec 122076 2007-02-17 04:47:41Z nanardon $
 
 %define name darcs
-%define version 2.1.2
+%define version 2.2.0
 %define release %mkrel 1
 
 %define withgit 1
@@ -72,7 +72,7 @@ This package contains the darcs cgi server program.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make DESTDIR=%{buildroot}  installbin installserver
+make DESTDIR=%{buildroot} install installserver
 # yes, it is a hack
 mkdir -p $RPM_BUILD_ROOT/%{_localstatedir}/lib/www/
 mv -f $RPM_BUILD_ROOT/%{_libdir}/cgi-bin $RPM_BUILD_ROOT/%{_localstatedir}/lib/www/cgi
@@ -85,7 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%doc AUTHORS doc/manual 
+%doc AUTHORS doc/manual
 %config(noreplace) %{_sysconfdir}/bash_completion.d/darcs
 %{_bindir}/darcs
 %{_mandir}/man1/darcs*
