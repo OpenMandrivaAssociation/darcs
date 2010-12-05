@@ -3,7 +3,7 @@
 
 %define name darcs
 %define version 2.2.0
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define withgit 1
 
