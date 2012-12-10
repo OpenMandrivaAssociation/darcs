@@ -1,100 +1,59 @@
-# This rpm is in the SVN
-# $Id: darcs.spec 122076 2007-02-17 04:47:41Z nanardon $
+#% global debug_package %{nil}
+%define _cabal_setup Setup.lhs
+%define _no_haddock 1
+%define module darcs
+Name:           %{module}
+Version:        2.8.3
+Release:        1
+Summary:        a distributed, interactive, smart revision control system
+Group:          Development/Other
+License:        GPLv2+
+URL:            http://hackage.haskell.org/package/%{module}
+Source0:        http://hackage.haskell.org/packages/archive/%{module}/%{version}/%{module}-%{version}.tar.gz
 
-%define name darcs
-%define version 2.2.0
-%define release %mkrel 2
-
-%define withgit 1
-
-%{?_without_git:%define withgit 0}
-%{?_with_git:%define withgit 1}
-
-Summary: David's Advanced Revision Control System
-Name: %{name}
-Version: %version
-Release: %release
-Source0: http://www.darcs.net/%{name}-%{version}.tar.gz
-License: GPL
-Group: Development/Other
-Url: http://www.darcs.net/
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires: ghc
-BuildRequires: zlib-devel
-BuildRequires: openssl-devel
-BuildRequires: ncurses-devel
-BuildRequires: latex2html tex4ht hevea
-%if %withgit
-BuildRequires: git-devel
-%endif
+BuildRequires:  ghc < 7.6
+buildrequires:  ghc-devel < 7.6
+buildrequires:  haskell-macros
+buildrequires:  cabal-install
+buildrequires:  pkgconfig(libcurl)
+buildrequires:  pkgconfig(ncurses)
 
 %description
-Darcs is a revision control system, along the lines of CVS
-or arch. That means that it keeps track of various revisions
-and branches of your project, allows for changes to
-propogate from one branch to another. Darcs is intended to
-be an ``advanced'' revision control system. Darcs has two
-particularly distinctive features which differ from other
-revision control systems: 1) each copy of the source is a
-fully functional branch, and 2) underlying darcs is a
-consistent and powerful theory of patches.
-
-%package server
-Summary: David's advanced revision control system Server
-Group: Development/Other
-Requires: webserver
-
-%description server
-Darcs is a revision control system, along the lines of CVS
-or arch. That means that it keeps track of various revisions
-and branches of your project, allows for changes to
-propogate from one branch to another. Darcs is intended to
-be an ``advanced'' revision control system. Darcs has two
-particularly distinctive features which differ from other
-revision control systems: 1) each copy of the source is a
-fully functional branch, and 2) underlying darcs is a
-consistent and powerful theory of patches.
-
-This package contains the darcs cgi server program.
+Darcs is a free, open source revision control system. It is:
+* Distributed: Every user has access to the full command set, removing
+boundaries between server and client or committer and non-committers.
+* Interactive: Darcs is easy to learn and efficient to use because it asks you
+questions in response to simple commands, giving you choices in your work flow.
+You can choose to record one change in a file, while ignoring another. As you
+update from upstream, you can review each patch name, even the full "diff" for
+interesting patches.
+* Smart: Originally developed by physicist David Roundy, darcs is based on a
+unique algebra of patches.
+This smartness lets you respond to changing demands in ways that would
+otherwise not be possible. Learn more about spontaneous branches with darcs.
 
 %prep
-%setup -q
+%setup -q -n %{module}-%{version}
 
 %build
-%configure \
-    --with-sendmail=%{_sbindir}/sendmail \
-%if %withgit
-    --enable-git \
-    --with-git-includes=-I%{_includedir}/git/
-%endif
-
-%make all
+cabal update
+cabal install
+cabal configure --prefix=%{_prefix} --libdir=%{_libdir} --disable-executable-stripping
+cabal build
+%_cabal_genscripts
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make DESTDIR=%{buildroot} install installserver
-# yes, it is a hack
-mkdir -p $RPM_BUILD_ROOT/%{_localstatedir}/lib/www/
-mv -f $RPM_BUILD_ROOT/%{_libdir}/cgi-bin $RPM_BUILD_ROOT/%{_localstatedir}/lib/www/cgi
-
-%check
-PATH="$PWD:$PATH" make check
-
-%clean
-rm -rf $RPM_BUILD_ROOT
+%_cabal_install
+%_cabal_rpm_gen_deps
+%_cabal_scriptlets
 
 %files
-%defattr(-,root,root)
-%doc AUTHORS doc/manual
-%config(noreplace) %{_sysconfdir}/bash_completion.d/darcs
-%{_bindir}/darcs
-%{_mandir}/man1/darcs*
-
-%files server
 %defattr(-,root,root,-)
-%{_localstatedir}/lib/www/cgi/*
-%config(noreplace) %{_sysconfdir}/darcs
-%{_datadir}/darcs
-
+%{_docdir}/%{module}-%{version}
+%{_libdir}/%{module}-%{version}
+%_cabal_rpm_deps_dir
+%_cabal_haddoc_files
+%{_bindir}/%{module}
+%attr(644,root,root) %{_mandir}/man1/*
 
 
