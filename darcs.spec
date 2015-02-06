@@ -4,7 +4,7 @@
 %define module darcs
 Name:           %{module}
 Version:        2.8.3
-Release:        1
+Release:        2
 Summary:        a distributed, interactive, smart revision control system
 Group:          Development/Other
 License:        GPLv2+
