@@ -8,7 +8,7 @@ Release:        2
 Summary:        a distributed, interactive, smart revision control system
 Group:          Development/Other
 License:        GPLv2+
-URL:            http://hackage.haskell.org/package/%{module}
+URL:            https://hackage.haskell.org/package/%{module}
 Source0:        http://hackage.haskell.org/packages/archive/%{module}/%{version}/%{module}-%{version}.tar.gz
 
 BuildRequires:  ghc < 7.6
